@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>AVALIAÇÃO DE MATEMÁTICA</title>
+
+<style>
+body {
+    font-family: Arial;
+    font-size: 26px;
+    margin: 20px;
+    background: #f0f8ff;
+}
+
+h1 {
+    text-align: center;
+    color: #ff6600;
+    font-size: 42px;
+}
+
+h2 {
+    background: #ffd966;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#nomeAluno {
+    width: 400px;
+    height: 50px;
+    font-size: 26px;
+    border-radius: 10px;
+    border: 2px solid #000;
+}
+
+.quadrado {
+    display: inline-block;
+    border: 3px solid #000;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    margin: 4px;
+    font-size: 28px;
+    font-weight: bold;
+    border-radius: 12px;
+}
+
+input {
+    width: 60px;
+    height: 60px;
+    font-size: 26px;
+    text-align: center;
+    border-radius: 10px;
+    border: 2px solid #000;
+}
+
+img {
+    width: 300px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.imgContagem {
+    width: 400px;
+}
+
+button {
+    font-size: 26px;
+    padding: 10px;
+    border-radius: 10px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #45a049;
+}
+
+#notaFinal {
+    font-size: 32px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.linhaContagem {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎮 Avaliação de Matemática</h1>
+
+<p><b>Nome do aluno:</b><br>
+<input id="nomeAluno">
+</p>
+
+<h2>1) Conte as imagens</h2>
+<div id="contagem"></div>
+
+<h2>2) Complete a sequência</h2>
+<div id="sequencia"></div>
+
+<h2>3) Antecessor e sucessor</h2>
+<div id="antesDepois"></div>
+
+<h2>4) Ordem crescente</h2>
+<div id="crescente"></div>
+
+<h2>5) Ordem decrescente</h2>
+<div id="decrescente"></div>
+
+<button onclick="corrigir()">Finalizar</button>
+
+<div id="notaFinal"></div>
+
+<script>
+
+// CONTAGEM
+const imagens = [
+"https://cdn.pixabay.com/photo/2021/05/21/16/31/bees-6271477_1280.jpg",
+"https://cdn.pixabay.com/photo/2016/03/31/15/28/ball-1293319_1280.png",
+"https://cdn.pixabay.com/photo/2021/02/09/14/59/butterflies-5998763_1280.png",
+"https://cdn.pixabay.com/photo/2017/01/31/14/16/cupcake-2024479_1280.png",
+"https://cdn.pixabay.com/photo/2022/04/22/12/44/fruits-7149669_1280.png"
+];
+
+let respostasCont = [5,6,10,8,7];
+let contDiv = document.getElementById("contagem");
+
+for (let i = 0; i < 5; i++) {
+    let div = document.createElement("div");
+    div.className = "linhaContagem";
+
+    let img = document.createElement("img");
+    img.src = imagens[i];
+    img.className = "imgContagem";
+
+    let input = document.createElement("input");
+    input.id = "cont"+i;
+
+    div.appendChild(img);
+    div.appendChild(input);
+    contDiv.appendChild(div);
+}
+
+// SEQUÊNCIA
+let respostasSeq = [];
+let seqDiv = document.getElementById("sequencia");
+
+function criarSequencia(inicio, fim, id, faltando) {
+
+    respostasSeq.push(faltando);
+
+    let cores = ["#ff9999","#99ccff","#99ff99","#ffcc99","#cc99ff"];
+
+    let div = document.createElement("div");
+
+    for (let i = inicio; i <= fim; i++) {
+
+        if (i === faltando) {
+            let input = document.createElement("input");
+            input.id = "seq"+id;
+            div.appendChild(input);
+        } else {
+            let span = document.createElement("span");
+            span.className = "quadrado";
+            span.innerHTML = i;
+
+            // 👇 AQUI VOLTA A COR
+            span.style.background = cores[id % cores.length];
+
+            div.appendChild(span);
+        }
+    }
+
+    seqDiv.appendChild(div);
+}
+criarSequencia(0,10,0,9);
+criarSequencia(0,10,1,5);
+criarSequencia(10,20,2,18);
+criarSequencia(10,20,3,14);
+criarSequencia(0,10,4,2);
+
+// ANTECESSOR
+let respostasAD = [];
+let adDiv = document.getElementById("antesDepois");
+
+function criarAD(num,id){
+
+    respostasAD.push({a:num-1,d:num+1});
+
+    let cores = ["#ff9999","#99ccff","#99ff99","#ffcc99","#cc99ff"];
+
+    let div = document.createElement("div");
+
+    let antes = document.createElement("input");
+    antes.id="antes"+id;
+
+    let meio = document.createElement("span");
+    meio.className="quadrado";
+    meio.innerHTML=num;
+
+    // 👇 COR NO NÚMERO DO MEIO
+    meio.style.background = cores[id % cores.length];
+
+    let depois = document.createElement("input");
+    depois.id="depois"+id;
+
+    div.appendChild(antes);
+    div.appendChild(meio);
+    div.appendChild(depois);
+
+    adDiv.appendChild(div);
+}
+
+criarAD(9,0);
+criarAD(5,1);
+criarAD(14,2);
+criarAD(18,3);
+criarAD(2,4);
+
+// CRESCENTE
+let divCrescente = document.getElementById("crescente");
+
+for(let i=0;i<=10;i++){
+    if(i<=1){
+        let span=document.createElement("span");
+        span.className="quadrado";
+        span.innerHTML=i;
+        divCrescente.appendChild(span);
+    }else{
+        let input=document.createElement("input");
+        input.id="cres"+i;
+        divCrescente.appendChild(input);
+    }
+}
+
+// DECRESCENTE
+let divDecrescente = document.getElementById("decrescente");
+
+for(let i=10;i>=0;i--){
+    if(i===10 || i===9){
+        let span=document.createElement("span");
+        span.className="quadrado";
+        span.innerHTML=i;
+        divDecrescente.appendChild(span);
+    }else{
+        let input=document.createElement("input");
+        input.id="dec"+i;
+        divDecrescente.appendChild(input);
+    }
+}
+
+// CORREÇÃO
+function corrigir(){
+
+    let nome=document.getElementById("nomeAluno").value.trim();
+    if(nome===""){
+        alert("Digite o nome!");
+        return;
+    }
+
+    let pontos=0;
+
+    for(let i=0;i<5;i++){
+        if(document.getElementById("cont"+i).value.trim()==respostasCont[i]) pontos++;
+    }
+
+    for(let i=0;i<5;i++){
+        if(document.getElementById("seq"+i).value.trim()==respostasSeq[i]) pontos++;
+    }
+
+    for(let i=0;i<5;i++){
+        let a=document.getElementById("antes"+i).value.trim();
+        let d=document.getElementById("depois"+i).value.trim();
+        if(a==respostasAD[i].a && d==respostasAD[i].d) pontos++;
+    }
+
+    for(let i=2;i<=10;i++){
+        if(document.getElementById("cres"+i).value.trim()==i) pontos++;
+    }
+
+    for(let i=8;i>=0;i--){
+        if(document.getElementById("dec"+i).value.trim()==i) pontos++;
+    }
+
+    let total=33;
+
+    let nota=(pontos/total)*10;
+
+    if(pontos===total){
+        nota=10;
+    }else{
+        nota=nota.toFixed(1);
+    }
+
+    document.getElementById("notaFinal").innerHTML=
+    "🎉 "+nome+", sua nota foi: "+nota;
+}
+
+</script>
+
+</body>
+</html>
