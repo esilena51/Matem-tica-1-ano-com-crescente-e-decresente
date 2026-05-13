@@ -56,11 +56,10 @@ input {
 
 img {
     width: 300px;
-    display: inline-block; /* 👈 muda aqui */
+    display: inline-block;
     margin-bottom: 10px;
 }
 
-/* 👇 NOVO: só para a contagem */
 .imgContagem {
     width: 400px;
 }
@@ -100,7 +99,7 @@ button:hover {
 
 <body>
 
-<h1>🎮 Avaliação de Matemática</h1>
+<h1>📚 Avaliação de Matemática</h1>
 
 <p><b>Nome do aluno:</b><br>
 <input id="nomeAluno" required>
@@ -120,7 +119,6 @@ button:hover {
 
 <h2>5) Ordem decrescente</h2>
 <div id="decrescente"></div>
-
 
 <button onclick="corrigir()">Finalizar</button>
 
@@ -150,7 +148,7 @@ for (let i = 0; i < 5; i++) {
 
     let img = document.createElement("img");
     img.src = imagens[i];
-    img.className = "imgContagem"; // 👈 AQUI FUNCIONA
+    img.className = "imgContagem";
     div.appendChild(img);
 
     let input = document.createElement("input");
@@ -269,12 +267,11 @@ for (let i = 0; i <= 10; i++) {
 // ---------- DECRESCENTE ----------
 let divDecrescente = document.getElementById("decrescente");
 
-// 👇 IMPORTANTE: limpa antes de criar
 divDecrescente.innerHTML = "";
 
 for (let i = 10; i >= 0; i--) {
 
-    if (i === 10 || i === 9) { // 👈 GARANTE 10 E 9
+    if (i === 10 || i === 9) {
         let span = document.createElement("span");
         span.className = "quadrado";
         span.innerHTML = i;
@@ -292,12 +289,14 @@ function corrigir() {
     let nome = document.getElementById("nomeAluno").value.trim();
 
     if (nome === "") {
-        alert("⚠️ Digite seu nome!");
+        alert("📌 Digite seu nome!");
         document.getElementById("nomeAluno").focus();
         return;
     }
 
     let pontos = 0;
+
+    // ✅ CORREÇÃO DA NOTA
     let total = 38;
 
     for (let i = 0; i < 5; i++) {
@@ -311,24 +310,23 @@ function corrigir() {
     for (let i = 0; i < 5; i++) {
         let a = document.getElementById("antes"+i).value;
         let d = document.getElementById("depois"+i).value;
-        if (a == respostasAD[i].a && d == respostasAD[i].d) pontos++;
+        if (a == respostasAD[i].a && d == respostasAD[i].d) pontos += 2;
     }
 
-    // CRESCENTE
-for (let i = 2; i <= 10; i++) {
-    if (document.getElementById("cres"+i).value == i) pontos++;
-}
+    for (let i = 2; i <= 10; i++) {
+        if (document.getElementById("cres"+i).value == i) pontos++;
+    }
 
- // DECRESCENTE
-for (let i = 8; i >= 0; i--) {
-    if (document.getElementById("dec"+i).value == i) pontos++;
-}
+    for (let i = 8; i >= 0; i--) {
+        if (document.getElementById("dec"+i).value == i) pontos++;
+    }
 
     let nota = (pontos / total) * 10;
     nota = nota.toFixed(1);
 
     document.getElementById("notaFinal").innerHTML =
-    "🎉 " + nome + ", sua nota foi: " + nota;
+    "📌 " + nome + ", sua nota foi: " + nota;
+
     salvarResultado(nome, nota);
 }
 
